@@ -1,0 +1,14 @@
+{
+	"title":"炮台炮兵计算器",
+	"input":"输入",
+	"order":"订单",
+	"azimute":"方位:",
+	"distance":"距离:",
+	"artillery_distance":"炮距":
+	"artillery_azimute":"炮兵方位:",
+	"target_distance":"目标距离:",
+	"target_azimute":"目标方位角:",
+	"credits":"{{autor}}",
+	"meters":"米",
+	"degrees":"度"
+}
