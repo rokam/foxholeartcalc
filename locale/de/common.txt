@@ -1,0 +1,14 @@
+{
+  "title": "Foxhole-Artillerie-Rechner",
+	"input": "Eingang",
+	"order": "Bestellen",
+	"azimute": "Azimut:",
+	"distance": "Entfernung:",
+	"artillery_distance": "Artilleriedistanz:",
+	"artillery_azimute": "Artillerie-Azimut:",
+	"target_distance": "Zielentfernung:",
+	"target_azimute": "Zielazimute:",
+	"credits": "von {{autor}}",
+	"meters": "meter",
+	"degrees": "grad"
+}
