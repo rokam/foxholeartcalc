@@ -1,0 +1,14 @@
+{
+  "title": "Calculadora de Artilharia do Foxhole",
+	"input": "Entrada",
+	"order": "Ordem",
+	"azimute": "Azimute",
+	"distance": "Distância",
+	"artillery_distance": "Distância da artilharia:",
+	"artillery_azimute": "Azimute da artilharia:",
+	"target_distance": "Distância do alvo:",
+	"target_azimute": "Azimute do alvo:",
+	"credits": "por {{autor}}",
+	"meters": "metros",
+	"degrees": "graus"
+}
