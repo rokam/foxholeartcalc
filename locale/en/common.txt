@@ -1,0 +1,14 @@
+{
+  "title": "Foxhole Artillery Calculator",
+	"input": "Input",
+	"order": "Order",
+	"azimute": "Azimute:",
+	"distance": "Distance:",
+	"artillery_distance": "Artillery distance:",
+	"artillery_azimute": "Artillery azimute:",
+	"target_distance": "Target distance:",
+	"target_azimute": "Target azimute:",
+	"credits": "by {{autor}}",
+	"meters": "meters",
+	"degrees": "degrees"
+}
