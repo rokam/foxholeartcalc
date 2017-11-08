@@ -1,0 +1,234 @@
+<html>
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109312809-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			
+			gtag('config', 'UA-109312809-1');
+		</script>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/10.0.7/i18next.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-xhr-backend/1.5.0/i18nextXHRBackend.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/2.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+		<script>
+		  (adsbygoogle = window.adsbygoogle || []).push({
+		    google_ad_client: "ca-pub-1887674288446291",
+		    enable_page_level_ads: true
+		  });
+		</script>
+		<script language="javascript">
+			i18next
+			  .use(i18nextXHRBackend)
+			  .use(i18nextBrowserLanguageDetector)
+			  .init({
+			    fallbackLng: 'en',
+			    debug: false,
+			    ns: ['common'],
+			    defaultNS: 'common',
+			    backend: {
+			      loadPath: 'https://artcalc.azurewebsites.net/locale/{{lng}}/{{ns}}.txt',
+			      crossDomain: true
+			    }
+			  }, function(err, t) {
+			    // init set content
+			    updateContent();
+			  });
+			
+			
+			// just set some content and react to language changes
+			// could be optimized using vue-i18next, jquery-i18next, react-i18next, ...
+			function updateContent() {
+				document.title = i18next.t('title');
+				document.getElementById('title').innerHTML = i18next.t('title');
+				document.getElementById('input').innerHTML = i18next.t('input');
+				document.getElementById('order').innerHTML = i18next.t('order');
+				document.getElementById('azimute_label').innerHTML = i18next.t('azimute');
+				document.getElementById('distance_label').innerHTML = i18next.t('distance');
+				document.getElementById('artillery_distance').innerHTML = i18next.t('artillery_distance');
+				document.getElementById('artillery_azimute').innerHTML = i18next.t('artillery_azimute');
+				document.getElementById('target_distance').innerHTML = i18next.t('target_distance');
+				document.getElementById('target_azimute').innerHTML = i18next.t('target_azimute');
+				document.getElementById('credits').innerHTML = i18next.t('credits', { autor: '[UBGE] Andrade' });
+				document.getElementById('srcaz').placeholder = i18next.t('degrees');
+				document.getElementById('tgtaz').placeholder = i18next.t('degrees');
+				document.getElementById('srcdist').placeholder = i18next.t('meters');
+				document.getElementById('tgtdist').placeholder = i18next.t('meters');
+			}
+			
+			function changeLng(lng) {
+			  i18next.changeLanguage(lng);
+			}
+			
+			i18next.on('languageChanged', () => {
+			  updateContent();
+			});
+		</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Artillery Calculator</title>
+		<style>
+			header {
+				padding: 10px 20px 20px;
+				font-size: 18pt;
+				font-weight: bold;
+				color: #333333;
+				text-align: center;
+			}
+			footer {
+				padding: 20px 20px 10px;
+				font-size: 10pt;
+				color: #333333;
+				text-align: center;
+			}
+			body {
+				padding: 0;
+				margin: 0;
+				width: 100%;
+				height: 100%;
+				font-size: 12pt;
+				font-family: 'verdana';
+				color: #999999;
+			}
+			a {
+				color: #333333;
+			}
+			a:hover {
+				color: #333333;
+			}
+			a:visited {
+				color: #333333;
+			}
+			fieldset {
+				margin: 10px;
+				border: 1px #bbbbbb solid;
+				background-color: #eeeeee;
+			}
+			div.input {
+				float: left;
+				width: 200px;
+				padding: 10px;
+			}
+			div.input input{
+				padding: 3px;
+			}
+			div.output {
+				float: left;
+				width: 200px;
+				padding: 10px;
+			}
+			div label {
+				font-weight: bold;
+				display: block;
+				padding-bottom: 5px;
+			}
+			div span {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<header id="title">Foxhole Artillery Calculator</header>
+		<fieldset class="grupo">
+			<legend id="input">Input</legend>
+			<div class="input">
+				<label id="artillery_distance">Artillery distance:</label>
+				<input id="srcdist" type="text"  onblur="calcula(this)" placeholder="meters" />
+			</div>
+			<div class="input">
+				<label id="artillery_azimute">Artillery azimute:</label>
+				<input id="srcaz" type="text"  onblur="calcula(this)" placeholder="degrees" />
+			</div>
+			<div class="input">
+				<label id="target_distance">Target distance:</label>
+				<input id="tgtdist" type="text" onblur="calcula(this)" placeholder="meters"/>
+			</div>
+			<div class="input">
+				<label id="target_azimute">Target azimute:</label>
+				<input id="tgtaz" type="text" onblur="calcula(this)" placeholder="degrees" />
+			</div>
+		</fieldset>
+		<fieldset class="grupo">
+			<legend id="order">Order</legend>
+			<div class="output">
+				<label id="azimute_label">Azimute:</label>
+				<span id="azimute"></span>
+			</div>
+			<div class="output">
+				<label id="distance_label">Distance:</label>
+				<span id="distance"></span>
+			</div>
+		</fieldset>
+		<script language="javascript">
+			var calcula = function(elm) {
+					var azimute = 0;
+				var distance = 0;
+				var ta = document.getElementById('tgtaz');
+				var td = document.getElementById('tgtdist');
+				var sa = document.getElementById('srcaz');
+				var sd = document.getElementById('srcdist');
+				/*
+				if(elm.value < 0) {
+					elm.parent.className += " error";
+					return false;
+				}
+				*/
+				var tgtaz = parseInt(ta.value) * Math.PI / 180;
+				var tgtdist = parseInt(td.value);
+				var srcaz = parseInt(sa.value) * Math.PI / 180;
+				var srcdist = parseInt(sd.value);
+			
+				var xs = srcdist*Math.sin(srcaz);
+				var xt = tgtdist*Math.sin(tgtaz);
+			
+				var ys = srcdist*Math.cos(srcaz);
+				var yt = tgtdist*Math.cos(tgtaz);
+			
+				var da = xt - xs;
+				var db = yt - ys;
+			
+				distance = Math.sqrt(Math.pow(da,2)+Math.pow(db,2));
+			
+				var AnguloBase = Math.atan(Math.abs(da)/Math.abs(db))*180/Math.PI;
+
+				if(da > 0) {
+					if(db > 0) {
+						 azimute = AnguloBase;
+					}
+					else{
+						azimute = 180 - AnguloBase;
+					}
+				}
+				else
+				{
+					if(db < 0) {
+						 azimute = 180 + AnguloBase;
+					}
+					else{
+						azimute = 360 - AnguloBase;
+					}
+					
+				}
+				
+				document.getElementById('distance').innerHTML = Math.round(distance) + 'm';
+				document.getElementById('azimute').innerHTML = Math.round(azimute) + '&deg;';
+				if(!isNaN(distance) && !isNaN(azimute)) {
+					gtag('event', 'calculation', {
+						'event_category': 'calculation',
+						'event_label': 'artillery',
+						'value': Math.round(distance) + 'm,'+Math.round(azimute)+'o'
+					});
+				}
+			}
+		</script>
+		<ins class="adsbygoogle"
+		     style="display:inline-block;width:320px;height:100px"
+		     data-ad-client="ca-pub-1887674288446291"
+		     data-ad-slot="5928857684"></ins>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+		<footer id="credits">by [UBGE] Andrade</footer>
+	</body>
+</html>
