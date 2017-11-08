@@ -1,14 +1,14 @@
 {
-  "title"："砲台砲兵計算器"，
-  "input"："輸入"，
-  "order"："訂單"，
-  "azimute"："方位:"，
-  "distance"："距離:"，
-  "artillery_distance"："炮距:",
-  "artillery_azimute"："砲兵方位:"，
-  "target_distance"："目標距離:"，
-  "target_azimute"："目標方位角:"，
-  "credits"："{{autor}}"，
-  "meters"："米"，
-  "degrees"："度"
+  "title":"砲台砲兵計算器",
+  "input":"輸入",
+  "order":"訂單",
+  "azimute":"方位:",
+  "distance":"距離:",
+  "artillery_distance":"炮距:",
+  "artillery_azimute":"砲兵方位:",
+  "target_distance":"目標距離:",
+  "target_azimute":"目標方位角:",
+  "credits":"{{autor}}",
+  "meters":"米",
+  "degrees":"度"
 }
