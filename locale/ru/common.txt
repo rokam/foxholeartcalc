@@ -1,0 +1,14 @@
+{
+  "title": "Калькулятор артиллерии Фоксхола",
+	"input": "вход",
+	"order": "порядок",
+	"azimute": "азимут:",
+	"distance": "Расстояние:",
+	"artillery_distance": "Расстояние артиллерии:",
+	"artillery_azimute": "Артиллерийский азимут:",
+	"target_distance": "Целевое расстояние:",
+	"target_azimute": "Целевой азимут:",
+	"credits": "by {{autor}}",
+	"meters": "метры",
+	"degrees": "степени"
+}
