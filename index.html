@@ -213,9 +213,18 @@
 				
 				var array = ['N','NNE','NE','NEE','E','SEE','SE','SSE','S','SSW','SW','SWW','W','NWW','NW','NNW','N'];
 				var index = Math.round(azimute / (360/16));
+				var diff = azimute - ((360/8) * index);
+				var clicks = Math.round(diff/(360/85));
+				var adjust = Math.abs(clicks) + ' ';
+				if(diff > 0) {
+					adjust += i18next.t('right');
+				}
+				else if (diff < 0) {
+					adjust += i18next.t('left');
+				}
 				
 				document.getElementById('distance').innerHTML = Math.round(distance) + 'm';
-				document.getElementById('azimute').innerHTML = Math.round(azimute) + '&deg; (' + array[index] + ')';
+				document.getElementById('azimute').innerHTML = Math.round(azimute) + '&deg; (' + array[index] + ' + ' + adjust + ')';
 				
 				if(!isNaN(distance) && !isNaN(azimute)) {
 					gtag('event', 'calculation', {
