@@ -10,5 +10,7 @@
 	"target_azimute": "Azimute do alvo:",
 	"credits": "por {{autor}}",
 	"meters": "metros",
-	"degrees": "graus"
+	"degrees": "graus",
+	"left": "esquerda",
+	"right": "direita"
 }
