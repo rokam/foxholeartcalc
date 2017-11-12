@@ -211,8 +211,12 @@
 					
 				}
 				
+				var array = ['N','NNE','NE','NEE','E','SEE','SE','SSE','S','SSW','SW','SWW','W','NWW','NW','NNW','N'];
+				var index = Math.round(azimute / (360/16));
+				
 				document.getElementById('distance').innerHTML = Math.round(distance) + 'm';
-				document.getElementById('azimute').innerHTML = Math.round(azimute) + '&deg;';
+				document.getElementById('azimute').innerHTML = Math.round(azimute) + '&deg; (' + array[index] + ')';
+				
 				if(!isNaN(distance) && !isNaN(azimute)) {
 					gtag('event', 'calculation', {
 						'event_category': 'calculation',
