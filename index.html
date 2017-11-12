@@ -214,7 +214,7 @@
 				var array = ['N','NE','E','SE','S','SW','W','NW','N'];
 				var index = Math.round(azimute / (360/8));
 				var diff = azimute - ((360/8) * index);
-				var clicks = Math.round(diff/(360/85));
+				var clicks = Math.round(diff/(360/100));
 				var adjust = Math.abs(clicks) + ' ';
 				if(diff > 0) {
 					adjust += i18next.t('right');
