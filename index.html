@@ -143,19 +143,19 @@
 			<legend id="input">Input</legend>
 			<div class="input">
 				<label id="artillery_distance">Artillery distance:</label>
-				<input id="srcdist" type="text"  onblur="calcula(this)" placeholder="meters" />
+				<input id="srcdist" type="tel" pattern="\d*" onblur="calcula(this)" placeholder="meters" />
 			</div>
 			<div class="input">
 				<label id="artillery_azimute">Artillery azimute:</label>
-				<input id="srcaz" type="text"  onblur="calcula(this)" placeholder="degrees" />
+				<input id="srcaz" type="tel" pattern="\d*" onblur="calcula(this)" placeholder="degrees" />
 			</div>
 			<div class="input">
 				<label id="target_distance">Target distance:</label>
-				<input id="tgtdist" type="text" onblur="calcula(this)" placeholder="meters"/>
+				<input id="tgtdist" type="tel" pattern="\d*" onblur="calcula(this)" placeholder="meters"/>
 			</div>
 			<div class="input">
 				<label id="target_azimute">Target azimute:</label>
-				<input id="tgtaz" type="text" onblur="calcula(this)" placeholder="degrees" />
+				<input id="tgtaz" type="tel" pattern="\d*" onblur="calcula(this)" placeholder="degrees" />
 			</div>
 		</fieldset>
 		<fieldset class="grupo">
