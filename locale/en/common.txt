@@ -12,5 +12,8 @@
 	"meters": "meters",
 	"degrees": "degrees",
 	"left": "left",
-	"right": "right"
+	"right": "right",
+	"target": "Target",
+	"spotter": "Spotter",
+	"artillery": "Artillery"
 }
