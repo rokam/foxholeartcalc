@@ -219,8 +219,8 @@
 				var diff = Math.max((maxx-minx), (maxy-miny));
 				
 				// Correction to centralize the draw.
-				var xcorrection = (diff-(maxx-minx)) / 2;
-				var ycorrection = (diff-(maxy-miny)) / 2;
+				var xcorrection = (diff-(maxx-minx));
+				var ycorrection = (diff-(maxy-miny));
 							
 				xspot = ((width - 50 - 2 * padding) * (xspot - minx) / diff) + xcorrection;
 				yspot = (height - 2 * padding) * (yspot - miny) / diff + ycorrection;
