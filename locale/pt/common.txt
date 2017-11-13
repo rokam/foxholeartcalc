@@ -14,6 +14,6 @@
 	"left": "esquerda",
 	"right": "direita",
 	"target": "Alvo",
-	"spotter": "Spotter",
+	"spotter": "Observador",
 	"artillery": "Artilharia"
 }
