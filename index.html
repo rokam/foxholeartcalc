@@ -37,7 +37,8 @@
 			    updateContent();
 			  });
 			
-			
+			var left = 'left';
+			var right = 'right';
 			// just set some content and react to language changes
 			// could be optimized using vue-i18next, jquery-i18next, react-i18next, ...
 			function updateContent() {
@@ -56,6 +57,8 @@
 				document.getElementById('tgtaz').placeholder = i18next.t('degrees');
 				document.getElementById('srcdist').placeholder = i18next.t('meters');
 				document.getElementById('tgtdist').placeholder = i18next.t('meters');
+				left = i18next.t('left');
+				right = i18next.t('right');
 			}
 			
 			function changeLng(lng) {
@@ -168,6 +171,12 @@
 				var td = document.getElementById('tgtdist');
 				var sa = document.getElementById('srcaz');
 				var sd = document.getElementById('srcdist');
+				if(ta.value.length == 0 || 
+				   td.value.length == 0 || 
+				   sa.value.length == 0 || 
+				   sd.value.length == 0) {
+					return;
+				}
 				/*
 				if(elm.value < 0) {
 					elm.parent.className += " error";
@@ -178,6 +187,8 @@
 				var tgtdist = parseInt(td.value);
 				var srcaz = parseInt(sa.value) * Math.PI / 180;
 				var srcdist = parseInt(sd.value);
+				
+				if(
 			
 				var xs = srcdist*Math.sin(srcaz);
 				var xt = tgtdist*Math.sin(tgtaz);
@@ -217,10 +228,10 @@
 				var clicks = Math.round(diff/(360/100));
 				var adjust = Math.abs(clicks) + ' ';
 				if(diff > 0) {
-					adjust += i18next.t('right');
+					adjust += right;
 				}
 				else if (diff < 0) {
-					adjust += i18next.t('left');
+					adjust += left;
 				}
 				
 				document.getElementById('distance').innerHTML = Math.round(distance) + 'm';
