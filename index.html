@@ -225,15 +225,19 @@
 				var diff = azimute - ((360/8) * index);
 				var clicks = Math.round(diff/(360/100));
 				var adjust = Math.abs(clicks) + ' ';
-				if(diff > 0) {
+				var adjust = ' + ' + Math.abs(clicks) + ' ';
+				if(clicks > 0) {
 					adjust += right;
 				}
-				else if (diff < 0) {
+				else if (clicks < 0) {
 					adjust += left;
+				}
+				else {
+					adjust = '';
 				}
 				
 				document.getElementById('distance').innerHTML = Math.round(distance) + 'm';
-				document.getElementById('azimute').innerHTML = Math.round(azimute) + '&deg; (' + array[index] + ' + ' + adjust + ')';
+				document.getElementById('azimute').innerHTML = Math.round(azimute) + '&deg; (' + array[index] + adjust + ')';
 				
 				if(!isNaN(distance) && !isNaN(azimute)) {
 					gtag('event', 'calculation', {
