@@ -12,5 +12,8 @@
 	"meters": "metros",
 	"degrees": "graus",
 	"left": "esquerda",
-	"right": "direita"
+	"right": "direita",
+	"target": "Alvo",
+	"spotter": "Spotter",
+	"artillery": "Artilharia"
 }
