@@ -13,6 +13,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/10.0.7/i18next.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-xhr-backend/1.5.0/i18nextXHRBackend.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/2.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.3/svg.min.js"></script>
 		<script>
 		  (adsbygoogle = window.adsbygoogle || []).push({
 		    google_ad_client: "ca-pub-1887674288446291",
@@ -39,6 +40,7 @@
 			
 			var left = 'left';
 			var right = 'right';
+
 			// just set some content and react to language changes
 			// could be optimized using vue-i18next, jquery-i18next, react-i18next, ...
 			function updateContent() {
@@ -59,6 +61,9 @@
 				document.getElementById('tgtdist').placeholder = i18next.t('meters');
 				left = i18next.t('left');
 				right = i18next.t('right');
+				target_label.plain(i18next.t('target'));
+				spot_label.plain(i18next.t('spotter'));
+				art_label.plain(i18next.t('artillery'));
 			}
 			
 			function changeLng(lng) {
@@ -163,44 +168,136 @@
 				<span id="distance"></span>
 			</div>
 		</fieldset>
+		<fieldset class="grupo">
+			<div id="grafico"></div>
+		</fieldset>
 		<script language="javascript">
+			var width = 300, height = 300, padding = 30;
+			var draw = SVG('grafico').size(300, 300);
+			draw.viewbox(0,0,width, height);
+			draw.rect(width-2, height-2).attr({ x: 1, y: 1, stroke: '#000', fill: '#fff', 'stroke-width': 1 });
+			var spotter_art = draw.line(0, 0, 100, 150).stroke({ color: '#bbbbbb', width: 1, dasharray: '2,2' }).attr({display:'none'});
+			var spotter_target = draw.line(0, 0, 100, 150).stroke({ color: '#bbbbbb', width: 1, dasharray: '2,2' }).attr({display:'none'});
+			var art_target = draw.line(0, 0, 100, 150).stroke({ color: '#229999', width: 2 }).attr({display:'none'});
+			var art_target_label = draw.text('Xm Yº').attr({x: 0, y: 0, display:'none'}).font({ fill: '#333', family: 'verdana', size: '10px' });
+			var target_circle = draw.circle(9).fill('#ff0000').center(10,10).attr({display:'none'});
+			var source_circle = draw.circle(9).fill('#0033ff').center(20,20).attr({display:'none'});
+			var spotter_circle = draw.circle(9).fill('#00aa00').center(30,30).attr({display:'none'});
+			var target_label = draw.text('Target').attr({ x: 24, y: 240, display:'none' }).font({ fill: '#333', family: 'verdana', size: '10px' });
+			var art_label = draw.text('Artillery').attr({ x: 24, y: 260, display:'none' }).font({ fill: '#333', family: 'verdana', size: '10px' });
+			var spot_label = draw.text('Spotter').attr({ x: 24, y: 280, display:'none' }).font({ fill: '#333', family: 'verdana', size: '10px' });
+			
+			// Change display of visual elements
+			var changeDisplay = function(value) {
+				spotter_art.attr({display:value});
+				spotter_target.attr({display:value});
+				art_target.attr({display:value});
+				art_target_label.attr({display:value});
+				target_circle.attr({display:value});
+				source_circle.attr({display:value});
+				spotter_circle.attr({display:value});
+				target_label.attr({display:value});
+				art_label.attr({display:value});
+				spot_label.attr({display:value});
+			};
+			
+			// Draw visual representation of the simulation
+			var drawSVG = function(xs_actual, ys_actual, xt_actual, yt_actual, distance, azimute) {
+				var xspot = 0;
+				var yspot = 0;
+				var xt = xt_actual;
+				var yt = yt_actual * -1;
+				var xs = xs_actual;
+				var ys = ys_actual * -1;
+				
+				var minx = Math.min(xspot, xs, xt);
+				var miny = Math.min(yspot, ys, yt);
+				
+				var maxx = Math.max(xspot, xs, xt);
+				var maxy = Math.max(yspot, ys, yt);
+				
+				var diff = Math.max((maxx-minx), (maxy-miny));
+				
+				// Correction to centralize the draw.
+				var xcorrection = (diff-(maxx-minx)) / 2;
+				var ycorrection = (diff-(maxy-miny)) / 2;
+							
+				xspot = ((width - 50 - 2 * padding) * (xspot - minx) / diff) + xcorrection;
+				yspot = (height - 2 * padding) * (yspot - miny) / diff + ycorrection;
+				
+				xs = (width - 50 - 2 * padding) * (xs - minx) / diff + xcorrection;
+				ys = (height - 2 * padding) * (ys - miny) / diff + ycorrection;
+				
+				xt = (width - 50 - 2 * padding) * (xt - minx) / diff + xcorrection;
+				yt = (height - 2 * padding) * (yt - miny) / diff + ycorrection;
+				
+				// Set circles positions
+				spotter_circle.center(xspot+padding,yspot+padding);
+				target_circle.center(xt+padding,yt+padding);
+				source_circle.center(xs+padding,ys+padding);
+				
+				// Set labels positions
+				target_label.attr({x:xt+padding+14, y:yt+padding+2.5});
+				art_label.attr({x:xs+padding+14, y:ys+padding+2.5});
+				spot_label.attr({x:xspot+padding+14, y:yspot+padding+2.5});
+				
+				// Set line positions
+				spotter_art.plot(xspot+padding, yspot+padding, xs+padding, ys+padding);
+				spotter_target.plot(xspot+padding, yspot+padding, xt+padding, yt+padding);
+				art_target.plot(xt+padding, yt+padding, xs+padding, ys+padding);
+				
+				// Set label value and position
+				art_target_label.attr({x:(xt+xs)/2+padding+15, y: (yt+ys)/2+padding}).plain(Math.round(azimute) + 'º ' + Math.round(distance) + 'm');
+				
+				// Display all elements
+				changeDisplay('block');
+
+			};
+			
 			var calcula = function(elm) {
-					var azimute = 0;
+				// Hide all elements
+				changeDisplay('none');
+				// Initializing variables
+				var azimute = 0;
 				var distance = 0;
 				var ta = document.getElementById('tgtaz');
 				var td = document.getElementById('tgtdist');
 				var sa = document.getElementById('srcaz');
 				var sd = document.getElementById('srcdist');
+				
+				// No input set, need to return
 				if(ta.value.length == 0 || 
 				   td.value.length == 0 || 
 				   sa.value.length == 0 || 
 				   sd.value.length == 0) {
 					return;
 				}
-				/*
-				if(elm.value < 0) {
-					elm.parent.className += " error";
-					return false;
-				}
-				*/
+				
+				// Convert input values into numbers
 				var tgtaz = parseInt(ta.value) * Math.PI / 180;
 				var tgtdist = parseInt(td.value);
 				var srcaz = parseInt(sa.value) * Math.PI / 180;
 				var srcdist = parseInt(sd.value);
 			
+				// Calculate x cordinates from artillery and target
 				var xs = srcdist*Math.sin(srcaz);
 				var xt = tgtdist*Math.sin(tgtaz);
 			
+				// Calculate y cordinates from artillery and target
 				var ys = srcdist*Math.cos(srcaz);
 				var yt = tgtdist*Math.cos(tgtaz);
 			
+				// Distance in the y and x axis
 				var da = xt - xs;
 				var db = yt - ys;
 			
+				// Distance between both point
 				distance = Math.sqrt(Math.pow(da,2)+Math.pow(db,2));
 			
+				// Angle between target and artillery
 				var AnguloBase = Math.atan(Math.abs(da)/Math.abs(db))*180/Math.PI;
 
+				// Adjust angle to N reference
 				if(da > 0) {
 					if(db > 0) {
 						 azimute = AnguloBase;
@@ -220,9 +317,14 @@
 					
 				}
 				
+				// Draw visual representation
+				drawSVG(xs,ys,xt,yt,distance,azimute);
+				
+				// Identification of direction
 				var array = ['N','NE','E','SE','S','SW','W','NW','N'];
 				var index = Math.round(azimute / (360/8));
 				var diff = azimute - ((360/8) * index);
+				// Clicks estimative
 				var clicks = Math.round(diff/(360/100));
 				var adjust = Math.abs(clicks) + ' ';
 				var adjust = ' + ' + Math.abs(clicks) + ' ';
@@ -236,9 +338,11 @@
 					adjust = '';
 				}
 				
+				// Print values
 				document.getElementById('distance').innerHTML = Math.round(distance) + 'm';
 				document.getElementById('azimute').innerHTML = Math.round(azimute) + '&deg; (' + array[index] + adjust + ')';
 				
+				// Report event
 				if(!isNaN(distance) && !isNaN(azimute)) {
 					gtag('event', 'calculation', {
 						'event_category': 'calculation',
